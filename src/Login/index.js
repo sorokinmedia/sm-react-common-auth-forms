@@ -106,8 +106,8 @@ Login.propTypes = {
 }
 Login.defaultProps = {
 	fields: {
-		login: 'Имя пользователя/e-mail',
-		password: 'Пароль'
+		loginLabel: 'Имя пользователя/e-mail',
+		passwordLabel: 'Пароль'
 	},
 	registration: {
 		link: '/auth/signup',
