@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Field, reduxForm } from 'redux-form'
-import { validateEmail } from '../../../services/InputValidator'
+import { Field } from 'redux-form'
 
 export const selectIcon = (field) => {
 	switch (field) {
