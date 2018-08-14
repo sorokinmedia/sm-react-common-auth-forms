@@ -1,0 +1,98 @@
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { Field } from 'redux-form'
+import { LoadingButton } from 'sm-react-common-loader'
+import { renderField } from '../SignUp'
+
+class ResetPasswordForm extends Component {
+
+	handleSubmit = (form) => {
+		this.props.resetPassword(form.email)
+	}
+
+	render() {
+		const { title, description, next, login, registration, fields } = this.props
+		return (
+			<div className="login-box">
+				<div className="login-logo">
+					{title}
+				</div>
+				<div className="login-box-body">
+					{this.props.response.message && this.props.response.status === 'success'
+						? <p className="login-box-msg">{this.props.response.message}</p>
+						: (
+							<div>
+								<p className="login-box-msg">
+									{description}
+								</p>
+								<form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+									<div className="form-group has-feedback">
+										{/* <input type="email" className="form-control" placeholder="Email"/> */}
+										<Field
+											name="email"
+											component={renderField}
+											type="email"
+											label={fields.email}
+										/>
+										{/* <span className="glyphicon glyphicon-envelope form-control-feedback"/> */}
+									</div>
+									<div className="row">
+										<div className="col-xs-4">
+											<LoadingButton
+												type="submit"
+												className="btn btn-primary btn-block btn-flat"
+											>
+												{next}
+											</LoadingButton>
+										</div>
+										<div className="col-xs-8">
+											<div className="flexbox full-flex">
+												<Link
+													to="/auth/login"
+													className="text-center"
+												>
+													{login}
+												</Link>
+											</div>
+											<div className="flexbox full-flex">
+												<Link
+													to="/auth/signup"
+													className="text-center"
+												>
+													{registration}
+												</Link>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>)
+					}
+				</div>
+			</div>)
+	}
+}
+
+ResetPasswordForm.propTypes = {
+	handleSubmit: PropTypes.func.isRequired,
+	resetPassword: PropTypes.func.isRequired,
+	response: PropTypes.object,
+	fields: PropTypes.object,
+	description: PropTypes.string,
+	title: PropTypes.string.isRequired,
+	next: PropTypes.string,
+	login: PropTypes.string,
+	registration: PropTypes.string
+
+}
+ResetPasswordForm.defaultProps = {
+	description: 'Введите e-mail, мы пришлем Вам на почту инструкцию по смене пароля',
+	next: 'Далее',
+	login: 'Войти',
+	registration: 'Регистрация',
+	fields: {
+		email: 'E-mail'
+	}
+}
+
+export default ResetPasswordForm
