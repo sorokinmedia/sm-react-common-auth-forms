@@ -92,5 +92,8 @@
 			"\\.(css|less)$": "identity-obj-proxy"
 		},
 		"testURL": "http://localhost"
+	},
+	"dependencies": {
+		"react-helmet": "^5.2.0"
 	}
 }

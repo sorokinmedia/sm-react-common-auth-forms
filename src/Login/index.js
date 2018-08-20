@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { Field } from 'redux-form'
 import LoginButton from '../UI/LoginButton'
@@ -44,6 +45,9 @@ class Login extends Component {
 		} = this.props
 		return (
 			<div className="login-box">
+				<Helmet>
+					<title>Войти</title>
+				</Helmet>
 				<div className="login-logo">
 					<Link
 						to="/"

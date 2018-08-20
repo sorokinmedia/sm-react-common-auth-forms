@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { Field } from 'redux-form'
 import { LoadingButton } from 'sm-react-common-loader'
@@ -15,6 +16,9 @@ class ResetPasswordForm extends Component {
 		const { title, description, next, login, registration, fields } = this.props
 		return (
 			<div className="login-box">
+				<Helmet>
+					<title>Сброс пароля</title>
+				</Helmet>
 				<div className="login-logo">
 					{title}
 				</div>

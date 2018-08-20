@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 import { Link, Redirect } from 'react-router-dom'
 import { Field } from 'redux-form'
 import { renderField } from '../SignUp'
@@ -17,6 +18,9 @@ class ChangePassword extends Component {
 
 		return (
 			<div className="login-box">
+				<Helmet>
+					<title>Сменить пароль</title>
+				</Helmet>
 				<div className="login-logo">
 					{newPasswordLabel}
 				</div>
