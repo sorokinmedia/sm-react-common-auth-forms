@@ -9,8 +9,8 @@ class ChangePassword extends Component {
 
 	handleSubmit = (form) => {
 		const { token } = this.props
-		if (token) this.props.changePassword(form.password, token)
-	}
+		if (token) this.props.changePassword(form.password, form.password_repeat, token)
+	};
 
 	render() {
 		const { token, next, description, registration, newPasswordLabel, login, fields } = this.props
@@ -52,7 +52,7 @@ class ChangePassword extends Component {
 											label={fields.password}
 										/>
 										<Field
-											name="repeat_password"
+											name="password_repeat"
 											component={renderField}
 											type="password"
 											label={fields.repeat}
