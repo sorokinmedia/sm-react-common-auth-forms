@@ -87,6 +87,9 @@ class ChangePassword extends Component {
 										</div>
 									</div>
 								</form>
+								<p className={'text-red'}>
+									{this.props.response.message || this.props.response.error}
+								</p>
 							</div>)
 					}
 				</div>
