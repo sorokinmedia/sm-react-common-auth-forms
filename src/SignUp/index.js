@@ -152,6 +152,9 @@ class SignUp extends Component {
 												</button>
 											</div>
 										</div>
+										<p className={'text-red'}>
+											{this.props.response.message || this.props.response.error}
+										</p>
 									</form>
 									{/* <div className="social-auth-links text-center"> */}
 									{/* <p>- OR -</p> */}
