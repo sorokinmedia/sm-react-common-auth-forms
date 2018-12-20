@@ -47,7 +47,7 @@ export function* requestSaga(action) {
 
 			yield put({
 				...action,
-				type: type + ERROR,
+				type: type + FAIL,
 				error
 			})
 		} else {
