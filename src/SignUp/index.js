@@ -7,17 +7,17 @@ import { Field } from 'redux-form'
 export const selectIcon = (field) => {
 	switch (field) {
 		case 'name':
-			return 'user'
+			return 'user';
 		case 'email':
-			return 'envelope'
+			return 'envelope';
 		case 'password':
-			return 'lock'
+			return 'lock';
 		case 'repeat_password':
-			return 'log-in'
+			return 'log-in';
 		default:
 			return ''
 	}
-}
+};
 
 export const renderField = ({
 	input,
@@ -35,7 +35,7 @@ export const renderField = ({
 		((error && <span className="help-block">{error}</span>) ||
 			(warning && <span>{warning}</span>))}
 	</div>
-)
+);
 
 
 renderField.propTypes = {
@@ -43,23 +43,23 @@ renderField.propTypes = {
 	label: PropTypes.string,
 	type: PropTypes.string,
 	meta: PropTypes.object
-}
+};
 
 class SignUp extends Component {
 
 	handleSubmit = (form) => {
 		this.props.register(form.name, form.password, form.email)
-	}
+	};
 
 	handleNameBlur = (ev) => {
 		const { value } = ev.nativeEvent.target
 		if (value) this.props.checkLogin(value)
-	}
+	};
 
 	handleEmailBlur = (ev) => {
 		const { value } = ev.nativeEvent.target
 		if (value) this.props.checkEmail(value)
-	}
+	};
 
 	render() {
 		const {
@@ -68,7 +68,7 @@ class SignUp extends Component {
 			fields: { name, email, password, repeat },
 			allreadyHaveAccount,
 			next
-		} = this.props
+		} = this.props;
 		return (
 			<div className="login-box">
 				<Helmet>
@@ -196,7 +196,7 @@ SignUp.propTypes = {
 	description: PropTypes.string,
 	allreadyHaveAccount: PropTypes.string,
 	next: PropTypes.string,
-}
+};
 
 SignUp.defaultProps = {
 	description: 'Регистрация нового аккаунта',
@@ -209,6 +209,6 @@ SignUp.defaultProps = {
 		repeat: 'Повторите пароль'
 	}
 
-}
+};
 
 export default SignUp

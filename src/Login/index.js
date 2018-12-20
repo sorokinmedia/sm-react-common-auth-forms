@@ -1,48 +1,28 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import LoginButton from '../UI/LoginButton'
 import RememberMeButton from '../UI/RememberMeButton'
+import renderField from '../renderField'
+import actions from '../redux/login/actions'
 
-const renderField = ({
-	input,
-	label,
-	type,
-	meta: { touched, error, warning }
-}) => (
-	<div className={'form-group has-feedback ' + (touched && error ? 'has-error' : '')}>
-		<label>{label}</label>
-		<input {...input} placeholder={label} type={type} className="form-control" />
-		<span
-			className={`glyphicon glyphicon-${input.name === 'login'
-				? 'envelope'
-				: 'lock'} form-control-feedback`}
-		/>
-		{touched &&
-		((error && <span className="help-block">{error}</span>) ||
-			(warning && <span>{warning}</span>))}
-	</div>
-)
-renderField.propTypes = {
-	input: PropTypes.object,
-	label: PropTypes.string,
-	type: PropTypes.string,
-	meta: PropTypes.object
-}
+const {login} = actions;
 
 class Login extends Component {
 
 	handleSubmit = (form) => {
 		this.props.login(form.login, form.password, form.remember)
-	}
+	};
 
 	render() {
 		const {
 			fields: { loginLabel, passwordLabel },
-			loginResponse, title, description, reset, registration
-		} = this.props
+			loginResponse, title, description, resetLink, registration
+		} = this.props;
+
 		return (
 			<div className="login-box">
 				<Helmet>
@@ -83,7 +63,7 @@ class Login extends Component {
 							</div>
 						</div>
 					</form>
-					<Link to={reset.link}>{reset.label}</Link><br />
+					<Link to={resetLink.link}>{resetLink.label}</Link><br />
 					<Link to={registration.link} className="text-center">{registration.label}</Link>
 				</div>
 			</div>
@@ -97,7 +77,7 @@ Login.propTypes = {
 	login: PropTypes.func,
 	loginResponse: PropTypes.object,
 	fields: PropTypes.object,
-	reset: PropTypes.shape({
+	resetLink: PropTypes.shape({
 		link: PropTypes.string,
 		label: PropTypes.string
 	}),
@@ -107,7 +87,8 @@ Login.propTypes = {
 	}),
 	title: PropTypes.string,
 	description: PropTypes.string,
-}
+};
+
 Login.defaultProps = {
 	fields: {
 		loginLabel: 'Имя пользователя/e-mail',
@@ -117,10 +98,24 @@ Login.defaultProps = {
 		link: '/auth/signup',
 		label: 'Регистрация'
 	},
-	reset: {
+	resetLink: {
 		link: '/auth/reset_password',
 		label: 'Я забыл пароль'
 	}
-}
+};
 
-export default Login
+Login = reduxForm({
+	form: 'auth-forms-login',
+	validate: values => {
+		let errors = {};
+
+		if (!values.login) errors.login = 'Введите логин';
+		if (!values.password) errors.password = 'Введите пароль';
+
+		return errors;
+	}
+})(Login);
+
+export default connect(state => ({}), {
+	login
+})(Login)

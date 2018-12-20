@@ -53,7 +53,7 @@
 		"react": "^16.3.1",
 		"react-dom": "^16.3.1",
 		"react-router-dom": "^4.3.1",
-		"redux-form": "^7.4.2",
+		"redux-form": "^8.0.4",
 		"rollup": "^0.58.2",
 		"rollup-plugin-babel": "^3.0.4",
 		"rollup-plugin-commonjs": "^9.1.0",
@@ -94,6 +94,11 @@
 		"testURL": "http://localhost"
 	},
 	"dependencies": {
-		"react-helmet": "^5.2.0"
+		"react-helmet": "^5.2.0",
+		"react-redux": "^6.0.0",
+		"redux": "^4.0.1",
+		"redux-saga": "^0.16.2",
+		"redux-thunk": "^2.3.0",
+		"sm-redux-saga-request": "0.0.8"
 	}
 }

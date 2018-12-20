@@ -21,7 +21,8 @@ export default {
 		'react-dom',
 		'react-router-dom',
 		'redux-form',
-		'sm-react-common-loader'
+		'sm-react-common-loader',
+		'react-is'
 	],
 	plugins: [
 		postcss({

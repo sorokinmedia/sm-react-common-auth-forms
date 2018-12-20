@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import PropTypes from 'prop-types';
-import Alert from '../lib';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
+import store from './redux/store';
+import { Login } from '../src'
 
 class App extends Component {
-
 	render() {
 		return (
 			<div>
-				<Alert showAlert="Error" />
+				<Login />
 			</div>
 		)
 	}
 }
 
-App.propTypes = {}
-App.defaultProps = {}
+App.propTypes = {};
+App.defaultProps = {};
 
-render(<App />, document.getElementById('root'));
+render(
+	<Provider store={store}>
+		<Router>
+			<App />
+		</Router>
+	</Provider>,
+	document.getElementById('root')
+);
