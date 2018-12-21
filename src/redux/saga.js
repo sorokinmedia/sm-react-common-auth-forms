@@ -6,6 +6,7 @@ import changePassword from './changePassword/saga'
 import resetPassword from './resetPassword/saga'
 import signup from './signup/saga'
 import { SUCCESS, START, ERROR, FAIL } from '../constants'
+import {REQUEST} from './requestAction'
 
 const API = 'http://api.sorokin.kosmoz.online';
 
@@ -89,7 +90,7 @@ export const getError = (data, response) => {
 export default function* rootSaga() {
 
 	yield all([
-		takeEvery('REQUEST', requestSaga),
+		takeEvery(REQUEST, requestSaga),
 		login(),
 		changePassword(),
 		resetPassword(),
