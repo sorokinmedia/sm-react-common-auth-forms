@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
+import actions from '../redux/signup/actions'
+import { validateEmail } from '../ResetPassword/index'
+
+const { register, checkEmail, checkLogin } = actions;
 
 export const selectIcon = (field) => {
 	switch (field) {
@@ -211,4 +216,26 @@ SignUp.defaultProps = {
 
 };
 
-export default SignUp
+export default reduxForm({
+	form: 'auth-forms-register',
+	validate: values => {
+		const  errors = {};
+		if(!values.name) errors.name = 'введите имя пользователя';
+		if(!values.email || !validateEmail(values.email)) errors.email = 'введите e-mail';
+		if(!values.password || values.password && values.password.length < 6)
+			errors.password = 'пароль должен содержать не менее 6-ти символов';
+		if(!values.repeat_password
+			|| (values.repeat_password && values.repeat_password.length < 6)
+			|| (values.repeat_password && values.repeat_password != values.password)
+		)
+			errors.repeat_password = 'повторите пароль';
+
+		return errors;
+	}
+})((connect(state => ({
+	response: state.registerResponse
+}), {
+	register,
+	checkEmail,
+	checkLogin
+}))(SignUp))

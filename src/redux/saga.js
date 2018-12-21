@@ -4,6 +4,7 @@ import regeneratorRuntime from 'regenerator-runtime'
 import login from './login/saga'
 import changePassword from './changePassword/saga'
 import resetPassword from './resetPassword/saga'
+import signup from './signup/saga'
 import { SUCCESS, START, ERROR, FAIL } from '../constants'
 
 const API = 'http://api.sorokin.kosmoz.online';
@@ -92,5 +93,6 @@ export default function* rootSaga() {
 		login(),
 		changePassword(),
 		resetPassword(),
+		signup(),
 	]);
 }

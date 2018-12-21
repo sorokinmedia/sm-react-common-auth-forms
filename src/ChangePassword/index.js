@@ -151,13 +151,14 @@ export default connect(state => ({
 	form: 'auth-forms-change_password',
 	validate: values => {
 		let  errors = {};
-		if (!values.password || values.password && values.password.length < 6)
+		if (!values.password || values.password && values.password.length < 6) {
 			errors.password = 'пароль должен содержать не менее 6-ти символов';
-		if (!values.repeat_password || values.repeat_password && values.repeat_password.length < 6 ||
+		}
+		if (!values.repeat_password || (values.repeat_password && values.repeat_password.length < 6) ||
 			(values.repeat_password !== values.password)
-		)
+		) {
 			errors.repeat_password = 'повторите пароль';
-
+		}
 		return errors;
 	}
 })(ChangePassword))
