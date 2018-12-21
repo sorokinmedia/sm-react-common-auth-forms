@@ -1,5 +1,5 @@
 import { all, takeEvery, put, select, fork } from 'redux-saga/effects';
-import requestMiddleware, { request } from 'sm-redux-saga-request'
+import request from '../requestAction'
 import { stopSubmit } from 'redux-form';
 import regeneratorRuntime from 'regenerator-runtime'
 import actions from './actions';
@@ -15,8 +15,8 @@ export function* loginSaga(action) {
 }
 
 export function* loginSuccessSaga(action) {
-	const {response} = action;
-	if(response.serverStatus === 100) {
+	const { response } = action;
+	if (response.serverStatus === 100) {
 		const errors = {login: response.message};
 		yield put(stopSubmit('login', errors))
 	}
@@ -29,7 +29,6 @@ export function* loginSuccessSaga(action) {
 }
 
 export function* loginFailSaga(action) {
-	console.log(action)
 	const errors = { login: action.error.message };
 	yield put(stopSubmit('auth-forms-login', errors))
 }

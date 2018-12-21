@@ -9,7 +9,7 @@ import RememberMeButton from '../UI/RememberMeButton'
 import renderField from '../renderField'
 import actions from '../redux/login/actions'
 
-const {login} = actions;
+const { login } = actions;
 
 class Login extends Component {
 

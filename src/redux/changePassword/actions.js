@@ -1,8 +1,8 @@
 const actions = {
-	LOGIN: 'LOGIN',
-	login: (login, password, remember) => ({
-		type: actions.LOGIN,
-		payload: { login, password, remember }
+	CHANGE_PASSWORD: 'CHANGE_PASSWORD',
+	changePassword: (password, token) => ({
+		type: actions.CHANGE_PASSWORD,
+		payload: { password, token, password_repeat: password }
 	})
 };
 

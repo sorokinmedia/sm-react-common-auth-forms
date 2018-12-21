@@ -1,7 +1,10 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects';
-import { request } from 'sm-redux-saga-request'
+//import { request } from 'sm-redux-saga-request'
+import regeneratorRuntime from 'regenerator-runtime'
 import login from './login/saga'
-import {SUCCESS, START, ERROR, FAIL} from '../constants'
+import changePassword from './changePassword/saga'
+import resetPassword from './resetPassword/saga'
+import { SUCCESS, START, ERROR, FAIL } from '../constants'
 
 const API = 'http://api.sorokin.kosmoz.online';
 
@@ -83,8 +86,11 @@ export const getError = (data, response) => {
 };
 
 export default function* rootSaga() {
+
 	yield all([
 		takeEvery('REQUEST', requestSaga),
 		login(),
+		changePassword(),
+		resetPassword(),
 	]);
 }

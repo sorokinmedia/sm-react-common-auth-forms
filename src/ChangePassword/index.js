@@ -1,20 +1,37 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { Link, Redirect } from 'react-router-dom'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { renderField } from '../SignUp'
+import actions from '../redux/changePassword/actions'
+
+const { changePassword } = actions;
+
+export function getUrlParameters(url) {
+	let query = url ? url : location.search.substr(1);
+
+	let result = {};
+	query.split("&").forEach(function(part) {
+		let item = part.split("=");
+		result[item[0]] = decodeURIComponent(item[1]);
+	});
+
+	return result;
+}
 
 class ChangePassword extends Component {
 
 	handleSubmit = (form) => {
-		const { token } = this.props
+		const { token } = this.props;
+		console.log(token)
 		if (token) this.props.changePassword(form.password, form.password_repeat, token)
 	};
 
 	render() {
-		const { token, next, description, registration, newPasswordLabel, login, fields } = this.props
-		if (!token) return <Redirect to="/" />
+		const { token, next, description, registration, newPasswordLabel, login, fields } = this.props;
+		if (!token) return <Redirect to="/" />;
 
 		return (
 			<div className="login-box">
@@ -88,7 +105,7 @@ class ChangePassword extends Component {
 									</div>
 								</form>
 								<p className={'text-red'}>
-									{this.props.response.message || this.props.response.error}
+									{console.log(this.props.response.message || this.props.response.error)}
 								</p>
 							</div>)
 					}
@@ -125,4 +142,22 @@ ChangePassword.defaultProps = {
 	}
 }
 
-export default ChangePassword
+export default connect(state => ({
+	response: state.changePasswordResponse,
+	token: getUrlParameters().token
+}), {
+	changePassword
+})(reduxForm({
+	form: 'auth-forms-change_password',
+	validate: values => {
+		let  errors = {};
+		if (!values.password || values.password && values.password.length < 6)
+			errors.password = 'пароль должен содержать не менее 6-ти символов';
+		if (!values.repeat_password || values.repeat_password && values.repeat_password.length < 6 ||
+			(values.repeat_password !== values.password)
+		)
+			errors.repeat_password = 'повторите пароль';
+
+		return errors;
+	}
+})(ChangePassword))

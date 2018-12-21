@@ -99,6 +99,6 @@
 		"redux": "^4.0.1",
 		"redux-saga": "^0.16.2",
 		"redux-thunk": "^2.3.0",
-		"sm-redux-saga-request": "0.0.8"
+		"sm-redux-saga-request": "0.0.9"
 	}
 }
