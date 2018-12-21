@@ -116,6 +116,8 @@ Login = reduxForm({
 	}
 })(Login);
 
-export default connect(state => ({}), {
+export default connect(state => ({
+
+}), {
 	login
 })(Login)

@@ -16,13 +16,13 @@ export default {
 	},
 	// All the used libs needs to be here
 	external: [
+		'react-is',
 		'react',
 		'react-proptypes',
 		'react-dom',
 		'react-router-dom',
 		'redux-form',
 		'sm-react-common-loader',
-		'react-is'
 	],
 	plugins: [
 		postcss({

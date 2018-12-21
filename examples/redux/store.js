@@ -18,7 +18,7 @@ const composeEnhancers =
     	: compose;
 
 const store = createStore(
-	combineReducers({ ...reducers, }),
+	combineReducers({ ...reducers }),
 	composeEnhancers(applyMiddleware(...middlewares))
 );
 sagaMiddleware.run(rootSaga);
