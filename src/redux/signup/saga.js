@@ -10,7 +10,7 @@ export function* registerSaga(action) {
 		...action,
 		method: 'POST',
 		auth: true,
-		url: '/v1/common/auth/password-reset-request',
+		url: '/v1/common/auth/register',
 	}))
 }
 
