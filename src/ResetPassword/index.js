@@ -21,7 +21,7 @@ class ResetPasswordForm extends Component {
 	};
 
 	render() {
-		const { title, description, next, login, registration, fields } = this.props
+		const { title, description, next, login, registration, fields, response } = this.props;
 		return (
 			<div className="login-box">
 				<Helmet>
@@ -31,8 +31,8 @@ class ResetPasswordForm extends Component {
 					{title}
 				</div>
 				<div className="login-box-body">
-					{this.props.response.message && this.props.response.status === 'success'
-						? <p className="login-box-msg">{this.props.response.message}</p>
+					{response.error && response.error.message || response.message && response.status === 'success'
+						? <p className="login-box-msg">{response.message || response.error.message}</p>
 						: (
 							<div>
 								<p className="login-box-msg">
@@ -54,6 +54,7 @@ class ResetPasswordForm extends Component {
 											<LoadingButton
 												type="submit"
 												className="btn btn-primary btn-block btn-flat"
+												loading={response.loading}
 											>
 												{next}
 											</LoadingButton>
