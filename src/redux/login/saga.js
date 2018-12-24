@@ -5,23 +5,29 @@ import regeneratorRuntime from 'regenerator-runtime'
 import actions from './actions';
 import { SORT_ASC, SORT_DESC, SUCCESS, FAIL, SUCCESS_REQ } from '../../constants';
 
+const selectParams = state => state.afParams;
+
 export function* loginSaga(action) {
+	const params = yield select(selectParams);
+
+	if (!params || !params['auth-forms-login']) return null;
+
 	yield put(request({
 		...action,
 		method: 'POST',
 		auth: true,
-		url: '/v1/common/auth/login',
+		url: params['auth-forms-login'].url,
 	}))
 }
 
 export function* loginSuccessSaga(action) {
 	const { response } = action;
 	if (response.serverStatus === 100) {
-		const errors = {login: response.message};
+		const errors = { login: response.message };
 		yield put(stopSubmit('login', errors))
 	}
 	else {
-		const expires = `expires=${new Date(response.data.exp*1000).toUTCString()}`;
+		const expires = `expires=${new Date(response.data.exp * 1000).toUTCString()}`;
 		const domain = `domain=${location.hostname === 'localhost' ? '' : '.'}${location.hostname}`;
 		document.cookie = `auth_token=${response.data.token}; ${expires}; ${domain}; path=/`;
 		location.href = location.origin

@@ -5,30 +5,51 @@ import regeneratorRuntime from 'regenerator-runtime'
 import actions from './actions';
 import { SORT_ASC, SORT_DESC, SUCCESS, FAIL, SUCCESS_REQ } from '../../constants';
 
+const selectParams = state => state.afParams;
+
 export function* registerSaga(action) {
+	const params = yield select(selectParams);
+
+	console.log(params)
+
+	if (!params || !params['auth-forms-register']) return null;
+
 	yield put(request({
 		...action,
 		method: 'POST',
 		auth: true,
-		url: '/v1/common/auth/register',
+		url: params['auth-forms-register'].url
+		//'/v1/common/auth/register',
 	}))
 }
 
 export function* checkEmailSaga(action) {
+	const params = yield select(selectParams);
+	console.log(params)
+
+	if (!params || !params['auth-forms-register']) return null;
+
 	yield put(request({
 		...action,
 		method: 'GET',
 		auth: true,
-		url: `/v1/common/auth/check-email/${action.payload.email}`,
+		url: `${params['auth-forms-register'].checkEmailUrl}/${action.payload.email}`
+		//`/v1/common/auth/check-email/${action.payload.email}`,
 	}))
 }
 
 export function* checkLoginSaga(action) {
+	const params = yield select(selectParams);
+	console.log(params)
+
+	if (!params || !params['auth-forms-register']) return null;
+
 	yield put(request({
 		...action,
 		method: 'GET',
 		auth: true,
-		url: `/v1/common/auth/check-login/${action.payload.email}`,
+		url: `${params['auth-forms-register'].checkLoginUrl}/${action.payload.login}`
+		//`/v1/common/auth/check-login/${action.payload.email}`,
 	}))
 }
 

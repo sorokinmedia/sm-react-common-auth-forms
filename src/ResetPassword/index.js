@@ -7,6 +7,9 @@ import { Field, reduxForm } from 'redux-form'
 import { LoadingButton } from 'sm-react-common-loader'
 import { renderField } from '../SignUp'
 import actions from '../redux/resetPassword/actions'
+import commonActions from '../redux/commonActions'
+
+const { setParams } = commonActions;
 
 const { resetPassword } = actions;
 
@@ -15,6 +18,11 @@ export function validateEmail(mail) {
 }
 
 class ResetPasswordForm extends Component {
+	componentDidMount() {
+		this.props.setParams('auth-forms-reset', {
+			url: this.props.url,
+		})
+	}
 
 	handleSubmit = (form) => {
 		this.props.resetPassword(form.email)
@@ -22,6 +30,7 @@ class ResetPasswordForm extends Component {
 
 	render() {
 		const { title, description, next, login, registration, fields, response } = this.props;
+		console.log(response)
 		return (
 			<div className="login-box">
 				<Helmet>
@@ -31,8 +40,8 @@ class ResetPasswordForm extends Component {
 					{title}
 				</div>
 				<div className="login-box-body">
-					{response.error && response.error.message || response.message && response.status === 'success'
-						? <p className="login-box-msg">{response.message || response.error.message}</p>
+					{response.message
+						? <p className="login-box-msg">{response.message}</p>
 						: (
 							<div>
 								<p className="login-box-msg">
@@ -93,6 +102,7 @@ ResetPasswordForm.propTypes = {
 	fields: PropTypes.object,
 	description: PropTypes.string,
 	title: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
 	next: PropTypes.string,
 	login: PropTypes.string,
 	registration: PropTypes.string
@@ -113,12 +123,13 @@ export default reduxForm({
 	form: 'auth-forms-reset_password',
 	validate: values => {
 		const  errors = {};
-		if(!values.email || !validateEmail(values.email)) errors.email = 'некорректный e-mail';
+		if (!values.email || !validateEmail(values.email)) errors.email = 'некорректный e-mail';
 
 		return errors;
 	}
 })(connect(state => ({
 	response: state.resetPasswordResponse
 }), {
-	resetPassword
+	resetPassword,
+	setParams
 })(ResetPasswordForm))

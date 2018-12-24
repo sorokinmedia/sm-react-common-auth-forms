@@ -5,19 +5,25 @@ import regeneratorRuntime from 'regenerator-runtime'
 import actions from './actions';
 import { SORT_ASC, SORT_DESC, SUCCESS, FAIL, SUCCESS_REQ } from '../../constants';
 
+const selectParams = state => state.afParams;
+
 export function* resetPasswordSaga(action) {
+	const params = yield select(selectParams);
+
+	if (!params || !params['auth-forms-reset_password']) return null;
+
 	yield put(request({
 		...action,
 		method: 'POST',
 		auth: true,
-		url: '/v1/common/auth/password-reset-request',
+		url: params['auth-forms-reset_password'].url
+		//'/v1/common/auth/password-reset-request',
 	}))
 }
 
 export function* resetPasswordFailSaga(action) {
-	const { response } = action;
 	if (action.error) {
-		const errors = { password: action.error.message };
+		const errors = { email: action.error.message };
 		yield put(stopSubmit('auth-forms-reset_password', errors))
 	}
 }
@@ -25,7 +31,7 @@ export function* resetPasswordFailSaga(action) {
 export default function* rootSaga(action) {
 
 	yield all([
-		takeEvery(actions.CHANGE_PASSWORD + FAIL, resetPasswordFailSaga),
+		takeEvery(actions.RESET_PASSWORD + FAIL, resetPasswordFailSaga),
 		takeEvery(actions.RESET_PASSWORD, resetPasswordSaga)
 	]);
 }

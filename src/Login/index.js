@@ -8,10 +8,15 @@ import LoginButton from '../UI/LoginButton'
 import RememberMeButton from '../UI/RememberMeButton'
 import renderField from '../renderField'
 import actions from '../redux/login/actions'
+import commonActions from '../redux/commonActions'
 
+const { setParams } = commonActions;
 const { login } = actions;
 
 class Login extends Component {
+	componentDidMount() {
+		this.props.setParams('auth-forms-login', { url: this.props.url })
+	}
 
 	handleSubmit = (form) => {
 		this.props.login(form.login, form.password, form.remember)
@@ -87,6 +92,7 @@ Login.propTypes = {
 	}),
 	title: PropTypes.string,
 	description: PropTypes.string,
+	url: PropTypes.string,
 };
 
 Login.defaultProps = {
@@ -119,5 +125,6 @@ Login = reduxForm({
 export default connect(state => ({
 
 }), {
-	login
+	login,
+	setParams
 })(Login)

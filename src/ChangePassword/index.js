@@ -6,7 +6,9 @@ import { Link, Redirect } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { renderField } from '../SignUp'
 import actions from '../redux/changePassword/actions'
+import commonActions from '../redux/commonActions'
 
+const { setParams } = commonActions;
 const { changePassword } = actions;
 
 export function getUrlParameters(url) {
@@ -22,10 +24,13 @@ export function getUrlParameters(url) {
 }
 
 class ChangePassword extends Component {
+	componentDidMount() {
+		this.props.setParams('auth-forms-change_password', { url: this.props.url })
+	}
 
 	handleSubmit = (form) => {
 		const { token } = this.props;
-		console.log(token)
+		console.log(token);
 		if (token) this.props.changePassword(form.password, form.repeat_password, token)
 	};
 
@@ -128,6 +133,7 @@ ChangePassword.propTypes = {
 		password: PropTypes.string,
 		repeat: PropTypes.string,
 	}),
+	url: PropTypes.string.isRequired
 }
 
 ChangePassword.defaultProps = {
@@ -146,7 +152,8 @@ export default connect(state => ({
 	response: state.changePasswordResponse,
 	token: getUrlParameters().token
 }), {
-	changePassword
+	changePassword,
+	setParams
 })(reduxForm({
 	form: 'auth-forms-change_password',
 	validate: values => {

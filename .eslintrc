@@ -49,6 +49,7 @@
 			}
 		],
 		"no-unneeded-ternary": "off",
+		"no-trailing-spaces": "off",
 		"no-unused-vars": "warn",
 		"camelcase": "warn",
 		"consistent-return": "warn",

@@ -6,7 +6,8 @@ import changePassword from './changePassword/saga'
 import resetPassword from './resetPassword/saga'
 import signup from './signup/saga'
 import { SUCCESS, START, ERROR, FAIL } from '../constants'
-import {REQUEST} from './requestAction'
+import { REQUEST } from './requestAction'
+import {deleteCookie} from "../CookieHelper";
 
 const API = 'http://api.sorokin.kosmoz.online';
 
@@ -87,9 +88,17 @@ export const getError = (data, response) => {
 	return ''
 };
 
+export function* logoutSaga() {
+	const domain = location.hostname === 'localhost' ? 'localhost' : '.' + location.hostname;
+	//setCookie('auth_token', '', {domain, path: '/'});
+	deleteCookie('auth_token');
+	location.href = location.origin + '/auth/login'
+}
+
 export default function* rootSaga() {
 
 	yield all([
+		takeEvery('LOGOUT', logoutSaga),
 		takeEvery(REQUEST, requestSaga),
 		login(),
 		changePassword(),

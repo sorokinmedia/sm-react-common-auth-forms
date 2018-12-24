@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import actions from '../redux/signup/actions'
 import { validateEmail } from '../ResetPassword/index'
+import commonActions from '../redux/commonActions'
+
+const { setParams } = commonActions;
 
 const { register, checkEmail, checkLogin } = actions;
 
@@ -51,6 +54,13 @@ renderField.propTypes = {
 };
 
 class SignUp extends Component {
+	componentDidMount() {
+		this.props.setParams('auth-forms-register', {
+			url: this.props.url,
+			checkEmailUrl: this.props.checkEmailUrl,
+			checkLoginUrl: this.props.checkLoginUrl,
+		})
+	}
 
 	handleSubmit = (form) => {
 		this.props.register(form.name, form.password, form.email)
@@ -201,6 +211,9 @@ SignUp.propTypes = {
 	description: PropTypes.string,
 	allreadyHaveAccount: PropTypes.string,
 	next: PropTypes.string,
+	checkLoginlUrl: PropTypes.string.isRequired,
+	checkEmailUrl: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
 };
 
 SignUp.defaultProps = {
@@ -237,5 +250,6 @@ export default reduxForm({
 }), {
 	register,
 	checkEmail,
-	checkLogin
+	checkLogin,
+	setParams
 }))(SignUp))

@@ -14,10 +14,10 @@ const actions = {
 			payload: { email }
 		}
 	},
-	checkLogin: (email) => {
+	checkLogin: (login) => {
 		return {
 			type: actions.CHECK_LOGIN,
-			payload: { email }
+			payload: { login }
 		}
 	}
 };
