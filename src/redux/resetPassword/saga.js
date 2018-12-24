@@ -9,6 +9,7 @@ const selectParams = state => state.afParams;
 
 export function* resetPasswordSaga(action) {
 	const params = yield select(selectParams);
+	console.log(params)
 
 	if (!params || !params['auth-forms-reset_password']) return null;
 

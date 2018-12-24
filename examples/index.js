@@ -12,10 +12,8 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<SignUp
-					url="/v1/common/auth/register"
-					checkEmailUrl="/v1/common/auth/check-email"
-					checkLoginUrl="/v1/common/auth/check-login"
+				<ResetPassword
+					url="/v1/common/auth/password-reset-request"
 				/>
 			</div>
 		)

@@ -19,7 +19,7 @@ export function validateEmail(mail) {
 
 class ResetPasswordForm extends Component {
 	componentDidMount() {
-		this.props.setParams('auth-forms-reset', {
+		this.props.setParams('auth-forms-reset_password', {
 			url: this.props.url,
 		})
 	}
@@ -30,7 +30,7 @@ class ResetPasswordForm extends Component {
 
 	render() {
 		const { title, description, next, login, registration, fields, response } = this.props;
-		console.log(response)
+
 		return (
 			<div className="login-box">
 				<Helmet>
