@@ -14,6 +14,7 @@ function RemeberMeButton({ label }) {
 RemeberMeButton.propTypes = {
 	label: PropTypes.string
 }
+
 RemeberMeButton.defaultProps = {
 	label: 'Запомнить меня'
 }
