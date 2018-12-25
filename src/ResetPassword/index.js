@@ -19,9 +19,7 @@ export function validateEmail(mail) {
 
 class ResetPasswordForm extends Component {
 	componentDidMount() {
-		this.props.setParams('auth-forms-reset_password', {
-			url: this.props.url,
-		})
+		this.props.setParams('auth-forms-reset_password', { url: this.props.url, })
 	}
 
 	handleSubmit = (form) => {
@@ -29,7 +27,9 @@ class ResetPasswordForm extends Component {
 	};
 
 	render() {
-		const { title, description, next, login, registration, fields, response } = this.props;
+		const {
+			title, description, next, login, registration, fields, response
+		} = this.props;
 
 		return (
 			<div className="login-box">
@@ -41,8 +41,19 @@ class ResetPasswordForm extends Component {
 				</div>
 				<div className="login-box-body">
 					{response.message
-						? <p className="login-box-msg">{response.message}</p>
-						: (
+						? <div>
+							<p className="login-box-msg">
+								{response.message}
+							</p>
+							<div style={{textAlign: 'center'}}>
+								<Link
+									to="/auth/login"
+									className="text-center"
+								>
+									{login}
+								</Link>
+							</div>
+						</div> : (
 							<div>
 								<p className="login-box-msg">
 									{description}
@@ -114,22 +125,18 @@ ResetPasswordForm.defaultProps = {
 	next: 'Далее',
 	login: 'Войти',
 	registration: 'Регистрация',
-	fields: {
-		email: 'E-mail'
-	}
+	fields: { email: 'E-mail' }
 };
 
 export default reduxForm({
 	form: 'auth-forms-reset_password',
-	validate: values => {
-		const  errors = {};
+	validate: (values) => {
+		const errors = {};
 		if (!values.email || !validateEmail(values.email)) errors.email = 'некорректный e-mail';
 
 		return errors;
 	}
-})(connect(state => ({
-	response: state.resetPasswordResponse
-}), {
+})(connect(state => ({ response: state.resetPasswordResponse }), {
 	resetPassword,
 	setParams
 })(ResetPasswordForm))

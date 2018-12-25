@@ -233,15 +233,15 @@ export default reduxForm({
 	form: 'auth-forms-register',
 	validate: values => {
 		const  errors = {};
-		if(!values.name) errors.name = 'введите имя пользователя';
-		if(!values.email || !validateEmail(values.email)) errors.email = 'введите e-mail';
-		if(!values.password || values.password && values.password.length < 6)
+		if (!values.name) errors.name = 'введите имя пользователя';
+		if (!values.email || !validateEmail(values.email)) errors.email = 'введите e-mail';
+		if (!values.password || values.password && values.password.length < 6)
 			errors.password = 'пароль должен содержать не менее 6-ти символов';
-		if(!values.repeat_password
+		if (!values.repeat_password
 			|| (values.repeat_password && values.repeat_password.length < 6)
-			|| (values.repeat_password && values.repeat_password != values.password)
+			|| (values.repeat_password && values.repeat_password !== values.password)
 		)
-			errors.repeat_password = 'повторите пароль';
+			errors.repeat_password = 'введенные пароли не совпадают';
 
 		return errors;
 	}

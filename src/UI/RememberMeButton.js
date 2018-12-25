@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 function RemeberMeButton({ label }) {
 	return (
 		<label>
-			<Field name="remember" component="input" type="checkbox" />
+			<Field name="remember" component="input" type="checkbox" style={{ marginRight: '10px' }} />
 			{label}
 		</label>
 	)
