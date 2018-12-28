@@ -12,8 +12,8 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<ChangePassword
-					url="/v1/common/auth/password-reset"
+				<Login
+					url="/v1/common/auth/login"
 				/>
 			</div>
 		)

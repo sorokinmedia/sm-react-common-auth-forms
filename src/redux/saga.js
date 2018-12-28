@@ -1,4 +1,4 @@
-import { all, takeEvery, put, call } from 'redux-saga/effects';
+import { all, takeEvery, put, call, select } from 'redux-saga/effects';
 //import { request } from 'sm-redux-saga-request'
 import regeneratorRuntime from 'regenerator-runtime'
 import login from './login/saga'
@@ -9,12 +9,12 @@ import { SUCCESS, START, ERROR, FAIL } from '../constants'
 import { REQUEST } from './requestAction'
 import {deleteCookie} from "../CookieHelper";
 
-const API = 'http://api.sorokin.kosmoz.online';
-
 export function* requestSaga(action) {
 	const {
 		payload, method, url, auth, oldType: type, token_is_active
 	} = action;
+
+	const API = yield select(state => state.afOrigin);
 
 	console.log(action)
 
