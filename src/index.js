@@ -6,7 +6,7 @@ import resetPasswordResponse from './redux/resetPassword/reducer'
 import signupReducer from './redux/signup/reducer'
 import commonReducers from './redux/commonReducers'
 import LoginForm from './Login'
-
+console.log('test')
 export ChangePassword from './ChangePassword'
 export SignUp from './SignUp'
 export ResetPassword from './ResetPassword'
