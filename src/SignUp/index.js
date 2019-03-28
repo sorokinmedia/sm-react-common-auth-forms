@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
@@ -31,6 +31,7 @@ export const renderField = ({
 	input,
 	label,
 	type,
+	hint,
 	meta: { touched, error, warning }
 }) => (
 	<div className={'form-group has-feedback ' + (touched && error ? 'has-error' : '')}>
@@ -39,6 +40,7 @@ export const renderField = ({
 		<span
 			className={`glyphicon glyphicon-${selectIcon(input.name)} form-control-feedback`}
 		/>
+		<span className="help-block">{hint}</span>
 		{touched &&
 		((error && <span className="help-block">{error}</span>) ||
 			(warning && <span>{warning}</span>))}
@@ -50,6 +52,7 @@ renderField.propTypes = {
 	input: PropTypes.object,
 	label: PropTypes.string,
 	type: PropTypes.string,
+	hint: PropTypes.string,
 	meta: PropTypes.object
 };
 
@@ -81,6 +84,7 @@ class SignUp extends Component {
 			title,
 			description,
 			fields: { name, email, password, repeat },
+			hints: { nameHint, emailHint, passwordHint, repeatHint },
 			allreadyHaveAccount,
 			next
 		} = this.props;
@@ -109,6 +113,7 @@ class SignUp extends Component {
 												name="name"
 												component={renderField}
 												type="text"
+												hint={nameHint}
 												label={name}
 												onBlur={this.handleNameBlur}
 											/>
@@ -118,6 +123,7 @@ class SignUp extends Component {
 												name="email"
 												component={renderField}
 												type="email"
+												hint={emailHint}
 												label={email}
 												onBlur={this.handleEmailBlur}
 											/>
@@ -127,6 +133,7 @@ class SignUp extends Component {
 												name="password"
 												component={renderField}
 												type="password"
+												hint={passwordHint}
 												label={password}
 											/>
 										</div>
@@ -135,6 +142,7 @@ class SignUp extends Component {
 												name="repeat_password"
 												component={renderField}
 												type="password"
+												hint={repeatHint}
 												label={repeat}
 											/>
 										</div>
@@ -167,7 +175,7 @@ class SignUp extends Component {
 												</button>
 											</div>
 										</div>
-										<p className={'text-red'}>
+										<p className="text-red">
 											{this.props.response.message || this.props.response.error}
 										</p>
 									</form>
@@ -207,6 +215,12 @@ SignUp.propTypes = {
 		password: PropTypes.string,
 		repeat: PropTypes.string,
 	}),
+	hints: PropTypes.shape({
+		nameHint: PropTypes.string,
+		emailHint: PropTypes.string,
+		passwordHint: PropTypes.string,
+		repeatHint: PropTypes.string,
+	}),
 	title: PropTypes.string,
 	description: PropTypes.string,
 	allreadyHaveAccount: PropTypes.string,
@@ -225,14 +239,20 @@ SignUp.defaultProps = {
 		email: 'E-mail',
 		password: 'Пароль',
 		repeat: 'Повторите пароль'
+	},
+	hints: {
+		nameHint: 'используйте буквы латинского алфавита',
+		emailHint: 'мы отправим письмо-подтверждение на email',
+		passwordHint: 'минимум 6 символов, латинские символы, без пробелов',
+		repeatHint: ''
 	}
 
 };
 
 export default reduxForm({
 	form: 'auth-forms-register',
-	validate: values => {
-		const  errors = {};
+	validate: (values) => {
+		const errors = {};
 		if (!values.name) errors.name = 'введите имя пользователя';
 		if (!values.email || !validateEmail(values.email)) errors.email = 'введите e-mail';
 		if (!values.password || values.password && values.password.length < 6)
@@ -245,9 +265,7 @@ export default reduxForm({
 
 		return errors;
 	}
-})((connect(state => ({
-	response: state.registerResponse
-}), {
+})((connect(state => ({ response: state.registerResponse }), {
 	register,
 	checkEmail,
 	checkLogin,
