@@ -7,19 +7,19 @@ import { Field, reduxForm } from 'redux-form'
 import { renderField } from '../SignUp'
 import actions from '../redux/changePassword/actions'
 import commonActions from '../redux/commonActions'
+import { get } from 'lodash'
 
 const { setParams } = commonActions;
 const { changePassword } = actions;
 
 export function getUrlParameters(url) {
-	let query = url ? url : location.search.substr(1);
-
-	let result = {};
-	query.split("&").forEach(function(part) {
-		let item = part.split("=");
-		result[item[0]] = decodeURIComponent(item[1]);
-	});
-
+	const query = url ? url : location.href.substr(1);
+	const result = {};
+	query.split('?')
+		.forEach((part) => {
+			const item = part.split('=');
+			result[item[0]] = decodeURIComponent(item[1]);
+		});
 	return result;
 }
 
@@ -29,14 +29,29 @@ class ChangePassword extends Component {
 	}
 
 	handleSubmit = (form) => {
-		const { token } = this.props;
-		console.log(token);
-		if (token) this.props.changePassword(form.password, form.repeat_password, token)
+		const { token } = getUrlParameters()
+		if (token && form.password === form.repeat_password) {
+			this.props.changePassword(form.password, token)
+		}
 	};
 
 	render() {
-		const { token, next, description, registration, newPasswordLabel, login, fields } = this.props;
+		const {
+			response, token, next, description, registration, newPasswordLabel, login, fields
+		} = this.props;
 		if (!token) return <Redirect to="/" />;
+		const message = get(response, 'message')
+			? (
+				<p className="text-red">
+					{response.message}
+				</p>
+			) : null
+		const error = get(response, 'error')
+			? (
+				<p className="text-red">
+					{response.error}
+				</p>
+			) : null
 
 		return (
 			<div className="login-box">
@@ -109,9 +124,8 @@ class ChangePassword extends Component {
 										</div>
 									</div>
 								</form>
-								<p className={'text-red'}>
-									{console.log(this.props.response.message || this.props.response.error)}
-								</p>
+								{message}
+								{error}
 							</div>)
 					}
 				</div>
@@ -157,7 +171,7 @@ export default connect(state => ({
 })(reduxForm({
 	form: 'auth-forms-change_password',
 	validate: values => {
-		let  errors = {};
+		let errors = {};
 		if (!values.password || values.password && values.password.length < 6) {
 			errors.password = 'пароль должен содержать не менее 6-ти символов';
 		}
