@@ -4,18 +4,29 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
+import { CONFIRM_EMAIL_RESPONSE, LOGIN_RESPONSE } from '../redux/login/reducer'
 import LoginButton from '../UI/LoginButton'
 import RememberMeButton from '../UI/RememberMeButton'
 import renderField from '../renderField'
 import actions from '../redux/login/actions'
 import commonActions from '../redux/commonActions'
+import { getUrlParameters } from '../urlHelper'
+import { get } from 'lodash'
 
 const { setParams } = commonActions;
-const { login } = actions;
+const { login, confirmEmail, clearConfirmResponse } = actions;
 
 class Login extends Component {
 	componentDidMount() {
-		this.props.setParams('auth-forms-login', { url: this.props.url })
+		this.props.setParams('auth-forms-login', {
+			confirmEmailUrl: this.props.confirmEmailUrl,
+			url: this.props.url
+		})
+		const { token } = getUrlParameters()
+		if (token) {
+			console.log('confirm')
+			this.props.confirmEmail(token)
+		}
 	}
 
 	handleSubmit = (form) => {
@@ -25,9 +36,13 @@ class Login extends Component {
 	render() {
 		const {
 			fields: { loginLabel, passwordLabel },
-			loginResponse, title, description, resetLink, registration
+			response, title, description, resetLink, registration,
+			confirmMailResponse
 		} = this.props;
-
+		const mailFailResponse = get(confirmMailResponse, 'error.message')
+			? <p className="alert alert-danger">{confirmMailResponse.error.message}</p> : null
+		const mailSuccessResponse = get(confirmMailResponse, 'message')
+			? <p className="alert alert-success">{confirmMailResponse.message}</p> : null
 		return (
 			<div className="login-box">
 				<Helmet>
@@ -40,6 +55,8 @@ class Login extends Component {
 					/>
 				</div>
 				<div className="login-box-body">
+					{mailFailResponse}
+					{mailSuccessResponse}
 					<p className="login-box-msg">{description}</p>
 					<form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 						<Field
@@ -62,7 +79,7 @@ class Login extends Component {
 
 							<div className="col-xs-4">
 								<LoginButton
-									loginResponse={loginResponse}
+									loginResponse={response}
 									label="Войти"
 								/>
 							</div>
@@ -80,7 +97,9 @@ Login.propTypes = {
 	handleSubmit: PropTypes.func,
 	handleLogin: PropTypes.func,
 	login: PropTypes.func,
+	setParams: PropTypes.func,
 	loginResponse: PropTypes.object,
+	confirmResponse: PropTypes.object,
 	fields: PropTypes.object,
 	resetLink: PropTypes.shape({
 		link: PropTypes.string,
@@ -92,7 +111,9 @@ Login.propTypes = {
 	}),
 	title: PropTypes.string,
 	description: PropTypes.string,
-	url: PropTypes.string,
+	confirmEmail: PropTypes.func,
+	confirmEmailUrl: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
 };
 
 Login.defaultProps = {
@@ -112,8 +133,8 @@ Login.defaultProps = {
 
 Login = reduxForm({
 	form: 'auth-forms-login',
-	validate: values => {
-		let errors = {};
+	validate: (values) => {
+		const errors = {};
 
 		if (!values.login) errors.login = 'Введите логин';
 		if (!values.password) errors.password = 'Введите пароль';
@@ -122,9 +143,13 @@ Login = reduxForm({
 	}
 })(Login);
 
-export default connect(state => ({
 
+export default connect(state => ({
+	response: state.loginResponse,
+	confirmMailResponse: state.confirmMail
 }), {
 	login,
+	confirmEmail,
+	clearConfirmResponse,
 	setParams
 })(Login)

@@ -10,6 +10,7 @@ import { REQUEST } from './requestAction'
 import {deleteCookie} from "../CookieHelper";
 
 export function* requestSaga(action) {
+	yield console.log('sdfdsf')
 	const {
 		payload, method, url, auth, oldType: type, token_is_active
 	} = action;

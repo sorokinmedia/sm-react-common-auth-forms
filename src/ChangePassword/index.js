@@ -1,27 +1,17 @@
+import { get } from 'lodash'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { renderField } from '../SignUp'
 import actions from '../redux/changePassword/actions'
 import commonActions from '../redux/commonActions'
-import { get } from 'lodash'
+import { renderField } from '../SignUp'
+import { getUrlParameters } from '../urlHelper'
 
 const { setParams } = commonActions;
 const { changePassword } = actions;
-
-export function getUrlParameters(url) {
-	const query = url ? url : location.href.substr(1);
-	const result = {};
-	query.split('?')
-		.forEach((part) => {
-			const item = part.split('=');
-			result[item[0]] = decodeURIComponent(item[1]);
-		});
-	return result;
-}
 
 class ChangePassword extends Component {
 	componentDidMount() {

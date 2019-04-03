@@ -7,7 +7,11 @@ import store from './redux/store';
 import { Login, ChangePassword, ResetPassword, SignUp } from '../src'
 
 function LoginForm(props) {
-	return <Login url="/v1/common/auth/login" />
+	return (
+		<Login
+			url="/v1/common/auth/login"
+			confirmEmailUrl="/v1/common/auth/confirm-email"
+		/>)
 }
 function SignUpForm(props) {
 	return (

@@ -2,20 +2,22 @@ import actions from './actions'
 import { FAIL, SORT_DESC, SUCCESS, START } from '../../constants';
 
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
-export function loginResponseReducer(state = {}, action) {
+export function confirmMailResponseReducer(state = {}, action) {
 	const { type, response, error } = action;
 
 	switch (type) {
-		case actions.LOGIN + START:
+		case actions.CONFIRM_EMAIL + START:
 			return {
 				loading: true
 			};
-		case actions.LOGIN + FAIL:
+		case actions.CONFIRM_EMAIL + FAIL:
 			return {
 				error
 			};
-		case actions.LOGIN + SUCCESS:
+		case actions.CONFIRM_EMAIL + SUCCESS:
 			return response;
+		case actions.CLEAR:
+			return {};
 		default:
 			return state;
 	}
@@ -23,5 +25,5 @@ export function loginResponseReducer(state = {}, action) {
 
 
 export default {
-	loginResponse: loginResponseReducer,
+	confirmMail: confirmMailResponseReducer,
 }
