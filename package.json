@@ -1,6 +1,6 @@
 {
 	"name": "sm-react-common-auth-forms",
-	"version": "1.0.20",
+	"version": "1.0.21",
 	"description": "Common frontend components for SM",
 	"main": "dist/index.js",
 	"repository": {
