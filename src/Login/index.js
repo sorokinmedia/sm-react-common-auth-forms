@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { CONFIRM_EMAIL_RESPONSE, LOGIN_RESPONSE } from '../redux/login/reducer'
+import commonActions from '../redux/commonActions'
+import actions from '../redux/login/actions'
+import renderField from '../renderField'
 import LoginButton from '../UI/LoginButton'
 import RememberMeButton from '../UI/RememberMeButton'
-import renderField from '../renderField'
-import actions from '../redux/login/actions'
-import commonActions from '../redux/commonActions'
 import { getUrlParameters } from '../urlHelper'
-import { get } from 'lodash'
 
 const { setParams } = commonActions;
 const { login, confirmEmail, clearConfirmResponse } = actions;
@@ -39,9 +37,9 @@ class Login extends Component {
 			response, title, description, resetLink, registration,
 			confirmMailResponse
 		} = this.props;
-		const mailFailResponse = get(confirmMailResponse, 'error.message')
+		const mailFailResponse = confirmMailResponse.error && confirmMailResponse.error.message
 			? <p className="alert alert-danger">{confirmMailResponse.error.message}</p> : null
-		const mailSuccessResponse = get(confirmMailResponse, 'message')
+		const mailSuccessResponse = confirmMailResponse.message
 			? <p className="alert alert-success">{confirmMailResponse.message}</p> : null
 		return (
 			<div className="login-box">
