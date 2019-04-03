@@ -29,13 +29,13 @@ class ChangePassword extends Component {
 			response, token, next, description, registration, newPasswordLabel, login, fields
 		} = this.props;
 		if (!token) return <Redirect to="/" />;
-		const message = get(response, 'message')
+		const message = response.message
 			? (
 				<p className="text-red">
 					{response.message}
 				</p>
 			) : null
-		const error = get(response, 'error')
+		const error = response.error
 			? (
 				<p className="text-red">
 					{response.error}
