@@ -6,16 +6,21 @@ import changePasswordReducer from './redux/changePassword/reducer'
 import resetPasswordResponse from './redux/resetPassword/reducer'
 import signupReducer from './redux/signup/reducer'
 import commonReducers from './redux/commonReducers'
-import LoginForm from './Login'
-console.log('test')
-export ChangePassword from './ChangePassword'
-export SignUp from './SignUp'
-export ResetPassword from './ResetPassword'
-export const Login = LoginForm
+import Login from './Login'
+import ChangePassword from './ChangePassword'
+import SignUp from './SignUp'
+import ResetPassword from './ResetPassword'
+import loginFormActions from './redux/login/actions'
+import saga from './redux/saga'
 
-export loginFormActions from './redux/login/actions'
-
-export saga from './redux/saga'
+export {
+	Login,
+	ChangePassword,
+	SignUp,
+	ResetPassword,
+	loginFormActions,
+	saga,
+}
 export const reducer = {
 	...loginFormReducer,
 	...confirmMailReducer,

@@ -3,41 +3,46 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import postcss from 'rollup-plugin-postcss'
-import { uglify } from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
+import filesize from 'rollup-plugin-filesize';
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const outputFile = NODE_ENV === 'production' ? './dist/index.js' : './lib/index.js'
 
 export default {
 	input: 'src/index.js',
-	output: {
-		file: outputFile,
-		format: 'cjs'
-	},
+	output: [
+		{
+			file: 'dist/index.js',
+			format: 'es',
+		}
+	],
 	// All the used libs needs to be here
 	external: [
 		'react-is',
 		'react',
-		'react-proptypes',
 		'react-dom',
+		'react-proptypes',
 		'react-router-dom',
 		'redux-form',
+		'redux-saga',
+		'react-redux',
 		'sm-react-common-loader',
 	],
 	plugins: [
-		postcss({
-			plugins: []
+		resolve(),
+		babel({
+			exclude: '**/node_modules/**',
+			runtimeHelpers: true
 		}),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
 		}),
-		resolve(),
-		babel({
-			exclude: 'node_modules/**',
-			plugins: ['external-helpers'],
-			runtimeHelpers: true
-		}),
 		commonjs(),
-		uglify()
+		postcss({
+			plugins: []
+		}),
+		terser(),
+		filesize()
 	]
 }

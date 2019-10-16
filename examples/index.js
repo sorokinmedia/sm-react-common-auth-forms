@@ -4,14 +4,15 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import store from './redux/store';
-import { Login, ChangePassword, ResetPassword, SignUp } from '../src'
+import { Login, ChangePassword, ResetPassword, SignUp } from '../dist'
 
 function LoginForm(props) {
 	return (
 		<Login
 			url="/v1/common/auth/login"
 			confirmEmailUrl="/v1/common/auth/confirm-email"
-		/>)
+		/>
+	)
 }
 function SignUpForm(props) {
 	return (
@@ -19,7 +20,8 @@ function SignUpForm(props) {
 			url="/v1/common/auth/register"
 			checkEmailUrl="/v1/common/auth/check-email"
 			checkLoginUrl="/v1/common/auth/check-login"
-		/>)
+		/>
+	)
 }
 function ResetPasswordForm(props) {
 	return <ResetPassword url="/v1/common/auth/password-reset-request" />

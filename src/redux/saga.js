@@ -1,5 +1,4 @@
 import { all, takeEvery, put, call, select } from 'redux-saga/effects';
-//import { request } from 'sm-redux-saga-request'
 import regeneratorRuntime from 'regenerator-runtime'
 import login from './login/saga'
 import changePassword from './changePassword/saga'
