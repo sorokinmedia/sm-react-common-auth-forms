@@ -1,5 +1,3 @@
-import regeneratorRuntime from 'regenerator-runtime'
-
 import loginFormReducer from './redux/login/reducer'
 import confirmMailReducer from './redux/login/confirm'
 import changePasswordReducer from './redux/changePassword/reducer'
