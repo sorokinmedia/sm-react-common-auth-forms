@@ -28,12 +28,12 @@ export const selectIcon = (field) => {
 };
 
 export const renderField = ({
-	input,
-	label,
-	type,
-	hint,
-	meta: { touched, error, warning }
-}) => (
+	                            input,
+	                            label,
+	                            type,
+	                            hint,
+	                            meta: { touched, error, warning }
+                            }) => (
 	<div className={'form-group has-feedback ' + (touched && error ? 'has-error' : '')}>
 		<label>{label}</label>
 		<input {...input} placeholder={label} type={type} className="form-control" />
@@ -57,6 +57,13 @@ renderField.propTypes = {
 };
 
 class SignUp extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			registering: false
+		}
+	}
+
 	componentDidMount() {
 		this.props.setParams('auth-forms-register', {
 			url: this.props.url,
@@ -67,6 +74,7 @@ class SignUp extends Component {
 
 	handleSubmit = (form) => {
 		this.props.register(form.name, form.password, form.email)
+		this.setState({ registering: true })
 	};
 
 	handleNameBlur = (ev) => {
@@ -170,6 +178,7 @@ class SignUp extends Component {
 												<button
 													type="submit"
 													className="btn btn-primary btn-block btn-flat"
+													disabled={this.state.registering}
 												>
 													{next}
 												</button>

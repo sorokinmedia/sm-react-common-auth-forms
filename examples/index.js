@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import store from './redux/store';
-import { Login, ChangePassword, ResetPassword, SignUp } from '../dist'
+import { Login, ChangePassword, ResetPassword, SignUp } from '../src'
 
 function LoginForm(props) {
 	return (
