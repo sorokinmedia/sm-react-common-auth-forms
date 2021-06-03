@@ -70,7 +70,7 @@
 		"react-router-dom": "^5.1.2",
 		"react-transition-group": "^4.3.0",
 		"redux": "^4.0.4",
-		"redux-form": "^8.2.6",
+		"redux-form": "^8.3.7",
 		"redux-saga": "^1.1.1",
 		"redux-thunk": "^2.3.0",
 		"sm-react-common-alert": "^1.0.13",
